@@ -1,0 +1,13 @@
+[Unit]
+Description=w.ai Node Service
+After=network.target
+
+[Service]
+User=YOUR_USERNAME
+ExecStart=/usr/bin/bash -lc '/usr/bin/wai run'
+Restart=on-failure
+RestartSec=30
+Environment=W_AI_API_KEY=YOUR_API_KEY
+
+[Install]
+WantedBy=multi-user.target
