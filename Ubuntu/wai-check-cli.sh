@@ -34,7 +34,7 @@ for ((i=1; i<=$SERVICE_COUNT; i++)); do
     # 如果没有匹配到字符串，则重启服务
     if (( HAS_ERROR == 0 )); then
         echo "  ➤ 未找到coin值，触发重启"
-        systemctl restart "$SERVICE_NAME"
+        sudo systemctl restart "$SERVICE_NAME"
         continue  # 重启后跳过时间检查
     fi
 
@@ -44,7 +44,7 @@ for ((i=1; i<=$SERVICE_COUNT; i++)); do
     LAST_LOG_TIME=$(journalctl -u "$SERVICE_NAME" -n 1 --no-pager --quiet -o json | jq -r '.__REALTIME_TIMESTAMP')
     if [[ -z "$LAST_LOG_TIME" ]]; then
         echo "  ➤ 无日志记录，触发重启"
-        systemctl restart "$SERVICE_NAME"
+        sudo systemctl restart "$SERVICE_NAME"
         continue
     fi
 
@@ -55,7 +55,7 @@ for ((i=1; i<=$SERVICE_COUNT; i++)); do
 
     if (( TIME_DIFF > MAX_LOG_TIME_SEC )); then
         echo "  ➤ 日志已过期（${TIME_DIFF}秒），触发重启"
-        systemctl restart "$SERVICE_NAME"
+        sudo systemctl restart "$SERVICE_NAME"
     fi
 done
 
