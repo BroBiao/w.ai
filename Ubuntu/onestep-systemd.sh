@@ -48,6 +48,7 @@ function install_w_ai_cli() {
         echo "w.ai cli未安装,开始安装..."
         curl -fsSL https://app.w.ai/install.sh | bash
         source ~/.bashrc
+        wai help
     fi
 }
 
@@ -79,7 +80,7 @@ WantedBy=multi-user.target"
 function setup_cron() {
     wget -O wai-check-cli.sh https://github.com/BroBiao/w.ai/raw/main/Ubuntu/wai-check-cli-systemd.sh
     chmod +x wai-check-cli.sh
-    (crontab -l 2>/dev/null; echo "5/* * * * * /usr/bin/bash $(pwd)/wai-check-cli.sh >> $(pwd)/wai-check-cli.sh.log 2>&1") | crontab -
+    (crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/bash $(pwd)/wai-check-cli.sh >> $(pwd)/wai-check-cli.sh.log 2>&1") | crontab -
 }
 
 # main menu
