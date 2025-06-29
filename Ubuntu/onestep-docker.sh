@@ -12,6 +12,21 @@ function install_dependecies() {
     sudo apt install python3 python3-pip python3-venv python3-dev -y
 }
 
+function set_cron_autostart() {
+    code_block='
+    if [ ! "$(pgrep cron)" ]; then
+        echo "Starting cron service..."
+        service cron start
+    fi'
+
+    if ! grep -qF "service cron start" ~/.bashrc; then
+        echo "$code_block" >> ~/.bashrc
+    else
+        echo "cron自启动代码已添加至.bashrc"
+    fi
+    source ~/.bashrc
+}
+
 function check_cuda() {
 	version=$(nvcc --version | grep -oP 'release \K[0-9]+\.[0-9]+')
 	if [ "$version" = "12.4" ]; then
@@ -53,6 +68,7 @@ function start_w_ai() {
 # main menu
 function main_menu() {
     install_dependecies
+    set_cron_autostart
     check_cuda
     start_w_ai
 }
