@@ -6,6 +6,9 @@ INSTANCE_COUNT=5            # 服务数量
 LOG_LINES=10                # 检查的日志行数
 MAX_LOG_TIME_SEC=300        # 日志时间阈值（秒），超过则重启（示例：5分钟）
 
+API_KEY=$(<api_key.txt)
+export W_AI_API_KEY="$API_KEY"
+
 # 存储最大coin值的变量
 MAX_COIN_VALUE=0
 

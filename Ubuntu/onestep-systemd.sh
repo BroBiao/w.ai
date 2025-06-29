@@ -55,6 +55,7 @@ function install_w_ai_cli() {
 function install_w_ai_services() {
     install_w_ai_cli
     read -p "请输入API KEY：" API_KEY
+    echo "$API_KEY" > api_key.txt
     read -p "请输入服务个数: " SERVICE_NUM
 
     for ((i=1; i<=$SERVICE_NUM; i++)); do
