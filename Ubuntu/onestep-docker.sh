@@ -14,10 +14,10 @@ function install_dependecies() {
 
 function set_cron_autostart() {
     code_block='
-    if [ ! "$(pgrep cron)" ]; then
-        echo "Starting cron service..."
-        service cron start
-    fi'
+if [ ! "$(pgrep cron)" ]; then
+    echo "Starting cron service..."
+    service cron start
+fi'
 
     if ! grep -qF "service cron start" ~/.bashrc; then
         echo "$code_block" >> ~/.bashrc
