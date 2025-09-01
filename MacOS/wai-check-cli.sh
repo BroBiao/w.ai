@@ -5,6 +5,9 @@ SERVICE_PREFIX="com.wai-cli-"   # 服务名前缀
 SERVICE_COUNT=5                 # 服务数量
 LOG_LINES=10                    # 检查的日志行数
 MAX_LOG_TIME_SEC=300           # 日志时间阈值（秒），超过则重启（示例：5分钟）
+MODEL1="sdxl"
+MODEL2="flux-1-dev"
+ALL_MODELS="$MODEL1|$MODEL2"
 
 # 存储最大coin值的变量
 MAX_COIN_VALUE=0
@@ -40,6 +43,15 @@ for ((i=1; i<=$SERVICE_COUNT; i++)); do
     
     HAS_ERROR=0  # 标记是否需要重启（0=需要，1=不需要）
     
+    # 检查是否包含需要重启的关键词
+    if echo "$LOG_CONTENT" | grep -Eq "$ALL_MODELS"; then
+        echo "  ➤ 检测到被排除的模型，触发重启"
+        launchctl stop "$SERVICE_NAME"
+        sleep 2
+        launchctl start "$SERVICE_NAME"
+        continue
+    fi
+    
     # 提取所有匹配的coin值并记录最大值
     while IFS= read -r line; do
         if [[ "$line" =~ have\ ([0-9]+)\ w\.ai\ coin ]]; then
@@ -51,7 +63,7 @@ for ((i=1; i<=$SERVICE_COUNT; i++)); do
         fi
     done <<< "$LOG_CONTENT"
     
-    # 如果没有匹配到字符串，则重启服务
+    # 如果没有匹配到coin值，则重启服务
     if (( HAS_ERROR == 0 )); then
         echo "  ➤ 未找到coin值，触发重启"
         launchctl stop "$SERVICE_NAME"
