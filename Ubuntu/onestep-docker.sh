@@ -2,6 +2,13 @@
 
 
 function install_dependecies() {
+    # Install sudo
+    if ! command -v sudo &> /dev/null; then
+        apt update
+        apt install sudo -y
+        usermod -aG sudo $USER
+    fi
+
     # Update System Packages
     sudo apt update && sudo apt upgrade -y
 
@@ -56,13 +63,9 @@ function start_w_ai() {
     install_w_ai_cli
     read -p "请输入API KEY：" API_KEY
     echo "$API_KEY" > api_key.txt
-    read -p "请输入服务个数: " SERVICE_NUM
-
-    # 启动所有服务实例
-    for ((i=1; i<=$SERVICE_NUM; i++)); do
-        export W_AI_API_KEY=$API_KEY
-        wai run >> wai-cli-$i.log 2>&1 &
-        echo $! > wai-cli-$i.pid
+    export W_AI_API_KEY=$API_KEY
+    wai run >> wai-cli.log 2>&1 &
+    echo $! > wai-cli.pid
     done
 }
 

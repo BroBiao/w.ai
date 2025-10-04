@@ -2,7 +2,7 @@
 
 # 配置参数
 FILE_PREFIX="wai-cli-"      # 日志文件名前缀
-INSTANCE_COUNT=5            # 服务数量
+INSTANCE_COUNT=1            # 服务数量
 LOG_LINES=10                # 检查的日志行数
 MAX_LOG_TIME_SEC=300        # 日志时间阈值（秒），超过则重启（示例：5分钟）
 
