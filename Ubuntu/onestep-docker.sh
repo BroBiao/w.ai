@@ -64,8 +64,8 @@ function start_w_ai() {
     read -p "请输入API KEY：" API_KEY
     echo "$API_KEY" > api_key.txt
     export W_AI_API_KEY=$API_KEY
-    wai run >> wai-cli.log 2>&1 &
-    echo $! > wai-cli.pid
+    wai run >> wai-cli-1.log 2>&1 &
+    echo $! > wai-cli-1.pid
 }
 
 # main menu
