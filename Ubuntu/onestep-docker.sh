@@ -66,7 +66,6 @@ function start_w_ai() {
     export W_AI_API_KEY=$API_KEY
     wai run >> wai-cli.log 2>&1 &
     echo $! > wai-cli.pid
-    done
 }
 
 # main menu
