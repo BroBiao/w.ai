@@ -20,18 +20,11 @@ function install_dependecies() {
 }
 
 function set_cron_autostart() {
-    code_block='
-if [ ! "$(pgrep cron)" ]; then
-    echo "Starting cron service..."
-    service cron start
-fi'
-
-    if ! grep -qF "service cron start" ~/.bashrc; then
-        echo "$code_block" >> ~/.bashrc
-    else
-        echo "cron自启动代码已添加至.bashrc"
-    fi
-    source ~/.bashrc
+    cat << EOF | sudo tee /etc/supervisor/conf.d/cron.conf > /dev/null
+[program:cron]
+command=/usr/sbin/cron -f
+EOF
+    sudo supervisorctl update
 }
 
 function check_cuda() {
